@@ -8,7 +8,21 @@ with an aggregate report. Files from a failed build must not be deployed.
 
 Crush currently supports Astro 7 and its `astro/zod` schemas. Install the package
 alongside Astro. Until an npm release exists, install a built archive produced by
-`pnpm pack` or use a published Git revision that builds the package on install.
+`pnpm pack` or pin a Git commit:
+
+```sh
+pnpm add 'github:kvazzie/crush#<commit>'
+```
+
+With pnpm 10, allow the Git package's build in `pnpm-workspace.yaml` before
+installing it. Git installation runs the package's `prepare` script and requires
+its development dependencies to build the distribution.
+
+```yaml
+allowBuilds:
+  "@kvazzie/crush": true
+```
+
 Register the integration in `astro.config.ts`:
 
 ```ts
