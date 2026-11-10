@@ -1,0 +1,71 @@
+---
+import { getEntry } from "astro:content";
+import { z } from "astro/zod";
+
+import * as Crush from "@kvazzie/crush";
+
+const Catalog = {
+  id: "catalog",
+  schema: z
+    .object({
+      collection: z.literal("catalog"),
+      data: z.object({ title: z.string() }),
+      id: z.string(),
+    })
+    .catch({
+      collection: "catalog",
+      data: { title: "Recovered catalog" },
+      id: "recovered",
+    }),
+} as const;
+const Site = {
+  id: "site",
+  schema: z
+    .object({
+      collection: z.literal("site"),
+      data: z.object({ name: z.string() }),
+      id: z.string(),
+    })
+    .catch({
+      collection: "site",
+      data: { name: "Recovered site" },
+      id: "recovered",
+    }),
+} as const;
+const Navigation = {
+  id: "navigation",
+  schema: z
+    .object({
+      collection: z.literal("navigation"),
+      data: z.object({ label: z.string() }),
+      id: z.string(),
+    })
+    .catch({
+      collection: "navigation",
+      data: { label: "Recovered navigation" },
+      id: "recovered",
+    }),
+} as const;
+const invalid = import.meta.env.MODE === "invalid";
+const [catalog, site] = await Promise.allSettled([
+  getEntry(Catalog.id, invalid ? "missing" : "valid"),
+  invalid
+    ? Promise.reject(new Error("fixture site loader failed"))
+    : getEntry(Site.id, "valid"),
+]).then(
+  Crush.if(Crush.at(0, 1)).is(
+    z.undefined(),
+    Crush.instead({ 0: Catalog, 1: Site }),
+  ),
+);
+const [navigation] = await Promise.all([
+  invalid
+    ? Promise.reject(new Error("fixture navigation loader failed")).catch(
+        Crush.on(Navigation),
+      )
+    : getEntry(Navigation.id, "valid"),
+]);
+const derivedTitle = `${catalog.data.title} + ${site.data.name} + ${navigation.data.label}`;
+---
+
+<h1>{derivedTitle}</h1>

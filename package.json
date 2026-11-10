@@ -1,0 +1,43 @@
+{
+  "name": "@kvazzie/crush",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.2",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "TESTING.md"
+  ],
+  "scripts": {
+    "build": "vite build && tsc -p tsconfig.json --emitDeclarationOnly",
+    "test": "pnpm build && vitest run",
+    "test:unit": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "test:e2e": "pnpm build && vitest run --project e2e",
+    "test:watch": "pnpm build && vitest",
+    "test:coverage": "pnpm build && vitest run --coverage",
+    "prepare": "pnpm build"
+  },
+  "peerDependencies": {
+    "astro": "^7.1.6"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@vitest/coverage-v8": "^5.1.0",
+    "astro": "^7.1.6",
+    "typescript": "~5.9.3",
+    "vite": "^8.3.7",
+    "vitest": "^5.1.0"
+  }
+}
