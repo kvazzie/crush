@@ -3,3 +3,9 @@ dist/
 coverage/
 
 .astro/
+
+# External agent skills and harness links
+/.agents/skills/*
+!/.agents/skills/.gitignore
+!/.agents/skills/.ignore
+/.claude/

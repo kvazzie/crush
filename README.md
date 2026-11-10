@@ -78,3 +78,8 @@ release process are selected; the GitHub repository can still be public.
 
 The implementation originated in `kvazzie/astro-template` at commit
 `ffc2dba509b057f7fbca6d541538d320e653653d`. Both projects use the 0BSD license.
+
+Project agent skills can be restored after cloning with
+`node scripts/setup-skills.mjs`. The installer downloads the current versions
+from the sources in `skills-lock.json`; recorded hashes do not pin or verify
+future installations. Installed copies are ignored by Git.
