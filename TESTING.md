@@ -34,9 +34,10 @@ Vite replaces `import.meta.vitest` with `undefined` and removes the unreachable 
 | One in-source test file | `pnpm exec vitest run --project unit src/index.ts` |
 | One case | `pnpm exec vitest run path/to/file.test.ts -t 'case name'` |
 | Watch | `pnpm test:watch` |
-| Coverage, including package build | `pnpm test:coverage` |
+| Unit and integration coverage | `pnpm test:coverage` |
+| Check TypeScript files | `pnpm typecheck` |
 
-Build before directly running a black-box test. Watch mode builds once at startup; rebuild after production changes when watching black-box tests. Vitest exits unsuccessfully when the selected suite has no tests. Coverage uses V8 and reports to the terminal and `coverage/`, without a threshold. Coverage of code run in separate Astro processes is not included automatically.
+Build before directly running a black-box test. Watch mode builds once at startup; rebuild after production changes when watching black-box tests. Vitest exits unsuccessfully when the selected suite has no tests, except for the coverage command, which allows an empty unit and integration suite. Coverage measures source code executed by unit and integration tests and reports via V8 to the terminal and `coverage/`, without a threshold. Black-box tests run separately against the built package; their execution and separate Astro processes are not included in that coverage report.
 
 ## Dependencies and configuration
 
@@ -44,7 +45,7 @@ Build before directly running a black-box test. Watch mode builds once at startu
 
 ## CI
 
-`.github/workflows/test.yml` runs on pushes and pull requests with Node 24. It installs the frozen lockfile and runs `pnpm test:coverage`, which builds the package and runs all tests. Both steps must pass; coverage has no minimum threshold.
+`.github/workflows/test.yml` runs on pushes and pull requests with Node 24. It installs the frozen lockfile, checks project TypeScript files, runs all tests against the built package, and reports unit and integration coverage. Coverage has no minimum threshold. `tsconfig.check.json` checks project TypeScript, including tests, fixtures and configuration; `tsconfig.json` limits declaration output to production source files.
 
 ## Disposable diagnostics
 

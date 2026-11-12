@@ -27,12 +27,16 @@ function runNode(
   arguments_: readonly string[],
   environment: NodeJS.ProcessEnv,
 ): Promise<{ status: number; stderr: string; stdout: string }> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     execFile(
       process.execPath,
       [...arguments_],
       { encoding: "utf8", env: environment },
       (error, stdout, stderr) => {
+        if (error && typeof error.code !== "number") {
+          reject(error);
+          return;
+        }
         resolve({
           status: typeof error?.code === "number" ? error.code : 0,
           stderr,
