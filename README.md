@@ -4,6 +4,13 @@ Crush collects selected content failures while an Astro static build continues
 with explicit fallback values. After rendering, its integration fails the build
 with an aggregate report. Files from a failed build must not be deployed.
 
+Crush is designed for static site generation: its purpose is to surface
+multiple content failures in one build while allowing rendering to continue
+with explicit fallback values. Its current integration targets Astro. It is not
+a general-purpose React or Vue runtime recovery library, and separating an
+independent framework-agnostic core is not a current project goal. Support for
+another static site generator would require its own build integration.
+
 ## Use with Astro
 
 Crush currently supports Astro 7 and its `astro/zod` schemas. Install the package
