@@ -26,8 +26,9 @@
     "test:integration": "vitest run --project integration",
     "test:e2e": "pnpm build && vitest run --project e2e",
     "test:watch": "pnpm build && vitest",
-    "test:coverage": "pnpm build && vitest run --coverage",
-    "prepare": "pnpm build"
+    "test:coverage": "vitest run --coverage --project unit --project integration --passWithNoTests",
+    "prepare": "pnpm build",
+    "typecheck": "pnpm build && tsc -p tsconfig.check.json"
   },
   "peerDependencies": {
     "astro": "^7.1.6"
